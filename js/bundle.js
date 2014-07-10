@@ -19983,7 +19983,6 @@ window.jQuery = $;
 var velocity = require('velocity-animate')
 var velocityui = require('velocity-animate/velocity.ui')
 var animations = require('./animations')
-
 var mixins = require('./mixins')
 
 module.exports = (function($, _){
