@@ -12,12 +12,16 @@
   margin: 14px 0;
 }
 .board .cell {
+  width: 56px;
+  height: 56px;
   margin: 0;
   padding: 0;
   border: 1px solid #eee;
 }
 .board .cell .outline {
   outline: 1px solid rgba(255, 180, 180, 0);
+  width: inherit;
+  height: inherit;
 }
 .board .cell input {
   padding: 0;
@@ -25,8 +29,8 @@
   border: 0;
   font-size: 32px;
   font-family: inherit;
-  width: 56px;
-  height: 56px;
+  width: inherit;
+  height: inherit;
   line-height: 56px;
   text-align: center;
   background-color: rgba(0, 0, 0, 0);
@@ -36,7 +40,7 @@
   color: #7e6aa5;
 }
 button {
-  width: 200px;
+  width: 170px;
   padding: 12px 0;
   border-radius: 50px;
   border: 2px solid #7e6aa5;
@@ -46,6 +50,10 @@ button {
   background: none;
   outline: none;
   cursor: pointer;
+}
+button:active {
+  background-color: #7e6aa5;
+  color: #fff;
 }
 body {
   font-family: "proxima-nova-soft", sans-serif;
@@ -68,4 +76,28 @@ h1 {
   font-weight: 500;
   font-size: 40px;
   text-transform: uppercase;
+  margin: 14px 0;
+}
+ul {
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+li {
+  list-style-type: none;
+  text-transform: capitalize;
+  cursor: pointer;
+  margin: 0 10px;
+  padding-bottom: 4px;
+}
+li.active {
+  cursor: default;
+  border-bottom: 2px solid #7e6aa5;
 }
