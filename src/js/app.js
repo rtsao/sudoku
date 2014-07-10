@@ -1,3 +1,3 @@
 var sudoku = require('./sudoku');
 
-sudoku.generateBoard();
+sudoku.init();
