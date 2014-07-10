@@ -152,7 +152,6 @@ module.exports = (function($, _){
     boardCache.cols = cols;
     boardCache.regions = regions;
 
-
     for (row = 0; row < 9; row++) {
       for (col = 0; col < 9; col++) {
         var val = rows[row][col];
@@ -250,6 +249,7 @@ module.exports = (function($, _){
   }
 
   return {
+
     init: function() {
       generateBoard(settings.puzzles[settings.difficulty]);
 
@@ -264,7 +264,7 @@ module.exports = (function($, _){
       }, 770, {'leading': true, 'trailing': false}));
 
     }
-
  
   }
+  
 })($, _);

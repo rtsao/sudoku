@@ -4,6 +4,7 @@ var gulp = require('gulp')
   , cache = require('gulp-cache')
   , imagemin = require('gulp-imagemin')
   , prefix = require('gulp-autoprefixer')
+  , uglify = require('gulp-uglify')
   , less = require('gulp-less')
   , jade = require('gulp-jade')
   , del = require('del')
@@ -44,9 +45,14 @@ gulp.task('watch', function() {
   gulp.watch('src/images/**/*', ['images'])
 
   var bundler = watchify('./src/js/app.js')
-    .on('update', rebundle)
+    .on('update', rebundle);
 
   function rebundle () {
+    bundler.plugin('minifyify', {
+      map: 'bundle.js.map',
+      output: 'build/js/bundle.js.map'
+    });
+
     return bundler.bundle()
       .on('error', gutil.log)
       .pipe(source('bundle.js'))
