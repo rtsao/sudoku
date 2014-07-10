@@ -7,6 +7,12 @@ module.exports = (function($, _){
  
   var settings = {};
 
+  var boardCache = {
+    rows: [],
+    cols: [],
+    regions: []
+  }
+
   function getCell(row, col) {
     return $('input[row='+row+'][col='+col+']');
   }
@@ -30,7 +36,7 @@ module.exports = (function($, _){
 
     for (var i=0; i<9; i++) {
       var offset = i ? (3*i % 8) || 8 : 0;
-      rows.push(_.rotate(_.range(1,10), offset));
+      rows.push(_.rotate(_.range(1, 10), offset));
     }
 
     return rows;
@@ -38,7 +44,47 @@ module.exports = (function($, _){
   }
 
   function generateBoard() {
-    var row, col, rows = generateRootSolution();
+    var row, col;
+
+    var cols, regions, rows = generateRootSolution();
+
+    rows = _.chain(rows)
+      .chunk(3) // Chunk rows into bands
+      .map(_.shuffle) // Permute rows within each band
+      .shuffle() // Permute bands
+      .flatten(true) // Flatten bands
+      .zip() // Swap row/column
+      .chunk(3) // Chunk columns into stacks
+      .map(_.shuffle) // Shuffle columns within each stack
+      .shuffle() // Permute stacks
+      .flatten(true) // Eliminate stack chunks
+      .value();
+
+    // Eliminate some values
+    rows = _.map(rows,function(row){
+        return _.sampleSparse(row,4);
+      });
+
+    cols = _.zip(rows);
+
+    regions = _.chain(rows)
+      .chunk(3) // Chunk rows into bands
+      .zip() // Group rows by position within band
+      .mapMap(_.partialRight(_.chunk, 3)) // Chunk each row into 3-column pieces
+      .map(_.partialRight(_.flatten, true)) // Group 3-column row pieces by row position in region
+      .zip() // Group 3-column row pieces together by region
+      .flatten() // Flatten 3-column pieces
+      .chunk(9) // Group cells by region
+      .map(function(array) { // Group cells into column chunks
+        return _.chunk(array, 3)
+      })
+      .map(function(array) { // Swap row and column within regions
+        return _.zip(array) 
+      })
+      .flatten() // Flatten
+      .chunk(9) // Group by region
+      .value();
+
 
     for (row = 0; row < 9; row++) {
       for (col = 0; col < 9; col++) {

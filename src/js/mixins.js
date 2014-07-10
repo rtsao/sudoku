@@ -19,6 +19,26 @@ _.mixin({
       result.push(array.slice(index, (index += chunkSize)));
     }
     return result;
+  },
+
+  sampleSparse: function(array, sampleSize) {
+    var values = _.sample(array, array.length-sampleSize);
+    return _.map(array, function(item) {
+      if (_.contains(values, item)) {
+        return item;
+      }
+      else {
+        return;
+      }
+    })
+  },
+
+  mapMap: function(arrayOfArrays, fn) {
+    return _.map(arrayOfArrays, function(array) {
+      return _.map(array, function(item) {
+        return fn(item);
+      })
+    })
   }
-    
+
 });
