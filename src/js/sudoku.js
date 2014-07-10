@@ -45,6 +45,13 @@ module.exports = (function($, _){
 
   }
 
+  function highlightCells(cells) {
+    cells.velocity('callout.sectionInvalid')
+      .eq(index)
+      .children()
+      .velocity('callout.shake');
+  }
+
   function isValidInput(input, row, col, region) {
 
     input = parseInt(input);
@@ -60,31 +67,16 @@ module.exports = (function($, _){
     }
 
     if ((index = _.indexOf(boardCache.rows[row],input)) >= 0) {
-      $('[row='+row+']')
-        .parent()
-        .velocity('callout.sectionInvalid')
-        .eq(index)
-        .children()
-        .velocity('callout.shake');
+      highlightCells($('[row='+row+']').parent());
       return false
 
     }
     if ((index = _.indexOf(boardCache.cols[col],input)) >= 0) {
-      $('[col='+col+']')
-        .parent()
-        .velocity('callout.sectionInvalid')
-        .eq(index)
-        .children()
-        .velocity('callout.shake');
+      highlightCells($('[col='+col+']').parent());
       return false
     }
     if ((index = _.indexOf(boardCache.regions[region],input)) >= 0) {
-      $('[region='+region+']')
-        .children()
-        .velocity('callout.sectionInvalid')
-        .eq(index)
-        .children()
-        .velocity('callout.shake');
+      highlightCells($('[region='+region+']').children());
       return false
     }
 
@@ -266,5 +258,5 @@ module.exports = (function($, _){
     }
  
   }
-  
+
 })($, _);
