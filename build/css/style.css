@@ -9,6 +9,7 @@
 .board {
   border-collapse: collapse;
   border-spacing: 0;
+  margin: 14px 0;
 }
 .board .cell {
   margin: 0;
@@ -19,9 +20,49 @@
   padding: 0;
   margin: 0;
   border: 0;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  font-size: 32px;
+  font-family: inherit;
+  width: 56px;
+  height: 56px;
+  line-height: 56px;
   text-align: center;
   background-color: rgba(0, 0, 0, 0);
+  color: #222222;
+}
+.board .cell input[readonly] {
+  color: #7e6aa5;
+}
+button {
+  width: 200px;
+  padding: 12px 0;
+  border-radius: 50px;
+  border: 2px solid #7e6aa5;
+  font-family: inherit;
+  font-size: 14px;
+  color: inherit;
+  background: none;
+  outline: none;
+  cursor: pointer;
+}
+body {
+  font-family: "proxima-nova-soft", sans-serif;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #7e6aa5;
+}
+h1 {
+  font-weight: 500;
+  font-size: 40px;
+  text-transform: uppercase;
 }

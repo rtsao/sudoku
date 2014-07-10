@@ -1,5 +1,8 @@
-@cell-size: 40px;
+@cell-size: 56px;
+@cell-font-size: 32px;
 @cell-color: #fff;
+@cell-text-color: #222;
+
 
 .generate-region-highlights(@n, @i: 0) when (@i < @n) {
     &[region='@{i}'] when (mod(@i, 2) = 0) {
@@ -15,6 +18,7 @@
 .board {
   border-collapse: collapse;
   border-spacing: 0;
+  margin: 14px 0;
 
   .cell {
     .generate-region-highlights(9);
@@ -26,11 +30,19 @@
       padding: 0;
       margin: 0;
       border: 0;
+      font-size: @cell-font-size;
+      font-family: inherit;
       width: @cell-size;
       height: @cell-size;
       line-height: @cell-size;
       text-align: center;
       background-color: rgba(0, 0, 0, 0);
+      color: @cell-text-color;
+      
+
+      &[readonly] {
+        color: @primary-color;
+      }
 
     }
 
