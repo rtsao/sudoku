@@ -168,7 +168,7 @@ module.exports = (function($, _){
     }
 
     // Number keys 1-9
-    else if (49 <= e.keyCode && e.keyCode <= 57 ) {
+    else if (49 <= e.keyCode && e.keyCode <= 57 && !$(this).attr('readonly')) {
       $(this).val(String.fromCharCode(e.keyCode));
     }
 
