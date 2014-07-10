@@ -1,9 +1,15 @@
 doctype html
 html(lang="en")
   head
-    title Hello World!
+    title Sudoku!
     meta(charset="utf-8")
     link(rel="stylesheet", href="/css/style.css", type="text/css")
   body
-    h1 Hello World!
+    h1 Sudoku!
+    table.board
+      - for (var y=0; y<9; y++)
+        tr
+          - for (var x=0; x<9; x++)
+            td.cell
+              input(row=y, col=x, type="text", maxlength="1", value=x)
   script(src="js/bundle.js")
