@@ -47,33 +47,28 @@ module.exports = (function($, _){
       .velocity('callout.shake');
   }
 
-  // Determine if input is valid
   function isValidInput(input, row, col, region) {
 
     input = parseInt(input);
     var regionIndex = 3*(row % 3) + (col % 3);
 
-
-
     if (!(1 <= input && input <= 9)) {
       boardCache.rows[row][col] = undefined;
       boardCache.cols[col][row] = undefined;
       boardCache.regions[region][regionIndex] = undefined;
-      return false 
+      return false;
     }
-
     if ((index = _.indexOf(boardCache.rows[row],input)) >= 0) {
       highlightCells($('[row='+row+']').parent());
-      return false
-
+      return false;
     }
     if ((index = _.indexOf(boardCache.cols[col],input)) >= 0) {
       highlightCells($('[col='+col+']').parent());
-      return false
+      return false;
     }
     if ((index = _.indexOf(boardCache.regions[region],input)) >= 0) {
       highlightCells($('[region='+region+']').children());
-      return false
+      return false;
     }
 
     boardCache.rows[row][col] = input;
@@ -83,6 +78,7 @@ module.exports = (function($, _){
     return true;
   }
 
+  // Generate and save board from puzzle string
   function generateBoard(puzzle_string) {
     var row, col;
 
@@ -124,6 +120,7 @@ module.exports = (function($, _){
       .chunk(9) // Group by region
       .value();
 
+    // Save to boardCache
     boardCache.rows = rows;
     boardCache.cols = cols;
     boardCache.regions = regions;
@@ -227,9 +224,7 @@ module.exports = (function($, _){
         $(this).select();
       });
       $('#difficulty').on('click', 'li', handleDifficultyClick);
-      $('#new-game').on('click', _.debounce(function() {
-        resetBoard();
-      }, 770, {'leading': true, 'trailing': false}));
+      $('#new-game').on('click', _.debounce(resetBoard, 770, {'leading': true, 'trailing': false}));
 
     }
  

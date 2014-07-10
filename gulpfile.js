@@ -11,6 +11,7 @@ var gulp = require('gulp')
   , source = require('vinyl-source-stream')
   , express = require('express')
   , watchify = require('watchify')
+  , uglifyify = require('uglifyify')
 
 gulp.task('clean', function(cb) {
   del(['build/**/*'], cb);
@@ -45,15 +46,16 @@ gulp.task('watch', function() {
   gulp.watch('src/images/**/*', ['images'])
 
   var bundler = watchify('./src/js/app.js')
-    .on('update', rebundle);
+    .on('update', rebundle)
+    .on('error', gutil.log)
 
-  function rebundle () {
-    bundler.plugin('minifyify', {
-      map: 'bundle.js.map',
-      output: 'build/js/bundle.js.map'
-    });
+  if(gutil.env.dev !== true) {
+    bundler.transform(uglifyify, {global: true});
+  }
 
-    return bundler.bundle()
+  function rebundle() {
+
+    return bundler.bundle(gutil.env.dev ? {debug: true} : {} )
       .on('error', gutil.log)
       .pipe(source('bundle.js'))
       .pipe(gulp.dest('build/js'))

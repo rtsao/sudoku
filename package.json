@@ -24,7 +24,6 @@
     "lodash": "^2.4.1",
     "jquery": "^2.1.1",
     "velocity-animate": "^0.5.1",
-    "gulp-uglify": "^0.3.1",
-    "minifyify": "^3.0.11"
+    "uglifyify": "^2.5.0"
   }
 }
