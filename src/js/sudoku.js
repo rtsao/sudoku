@@ -10,9 +10,22 @@ var mixins = require('./mixins')
 
 module.exports = (function($, _){
  
-  var settings = {};
+  var settings = {
+    puzzles: {
+      easy: '84....539...98..179716.5.2..54873...3....284..8.4917..2.8346......2.9...43....1.2',
+      moderate: '....986...8.7......35.....15.1.....2.2914...5........631...5.......1..4......7.2.',
+      hard: '....2..36.1...7..................1....364......9...75........2..7...45......3....'
+    },
+    difficulty: 'moderate'
+  };
 
   var boardCache = {};
+
+  var randMapping = _.shuffle(_.range(1, 10));
+
+  function mapRand(i) {
+    return randMapping[i-1];
+  }
 
   function getCell(row, col) {
     return $('input[row='+row+'][col='+col+']');
@@ -94,10 +107,13 @@ module.exports = (function($, _){
 
   }
 
-  function generateBoard() {
+  function generateBoard(puzzle_string) {
     var row, col;
 
-    var cols, regions, rows = generateRootSolution();
+    var cols, regions,
+    rows = _.chain(puzzle_string.split(''))
+      .chunk(9) // Chunk into rows
+      .value();
 
     rows = _.chain(rows)
       .chunk(3) // Chunk rows into bands
@@ -109,12 +125,8 @@ module.exports = (function($, _){
       .map(_.shuffle) // Shuffle columns within each stack
       .shuffle() // Permute stacks
       .flatten(true) // Eliminate stack chunks
+      .mapMap(mapRand) // Randomly map numbers 1-9
       .value();
-
-    // Eliminate some values
-    rows = _.map(rows,function(row){
-        return _.sampleSparse(row,4);
-      });
 
     cols = _.zip(rows);
 
@@ -144,11 +156,14 @@ module.exports = (function($, _){
     for (row = 0; row < 9; row++) {
       for (col = 0; col < 9; col++) {
         var val = rows[row][col];
-        if (val) {
-          getCell(row, col).val(val).attr('readonly', true).hide();
-        }
+        getCell(row, col).val(val).attr('readonly', !!val).hide();
+        
       }
     }
+
+    $('.board').velocity('transition.boardReset',function(){
+      $('input').velocity('transition.perspectiveDownIn',{stagger: 4, drag: true});
+    });
 
   }
 
@@ -213,16 +228,33 @@ module.exports = (function($, _){
 
   }
 
+  function handleDifficultyClick(e) {
+    console.log('a',this);
+    var difficulty = $(this).text();
+
+    console.log(difficulty);
+
+    if (difficulty !== settings.difficulty) {
+      settings.difficulty = difficulty;
+      $(this).addClass('active').siblings().removeClass('active');
+      generateBoard(settings.puzzles[settings.difficulty]);
+    }
+
+  }
+
   return {
     init: function() {
-      generateBoard();
+      generateBoard(settings.puzzles[settings.difficulty]);
 
       $('.board').on('keydown', 'input', handleCellKeyDown);
       $('.board').on('focusout', 'input', handleCellFocusout);
-      $('.board').on( 'click', 'input', function(e) {
+      $('.board').on('click', 'input', function(e) {
         $(this).select();
       });
-      $('input').velocity('transition.perspectiveDownIn', {stagger: 4, drag: true});
+      $('#difficulty').on('click', 'li', handleDifficultyClick);
+      $('#new-game').on('click', _.debounce(function() {
+        generateBoard(settings.puzzles[settings.difficulty]);
+      }, 770, {'leading': true, 'trailing': false}));
 
     }
 

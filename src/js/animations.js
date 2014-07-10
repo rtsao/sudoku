@@ -22,3 +22,13 @@ $.Velocity.RegisterUI("callout.sectionInvalid", {
         [ { outlineColorAlpha: 0 } ],
     ]
 });
+
+$.Velocity.RegisterUI("transition.boardReset", {
+    defaultDuration: 1000,
+    calls: [ 
+        [ { rotateY:['180deg',0] }, 1]
+    ],
+    reset: {
+      rotateY: 0
+    }
+});

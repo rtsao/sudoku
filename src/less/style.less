@@ -15,4 +15,26 @@ h1 {
   font-weight: 500;
   font-size: 40px;
   text-transform: uppercase;
+  margin: 14px 0;
 }
+
+ul {
+  padding: 0;
+  margin: 0;
+  display:flex;
+  justify-content: center;
+}
+
+li {
+  list-style-type: none;
+  text-transform: capitalize;
+  cursor: pointer;
+  margin: 0 10px;
+  padding-bottom: 4px;
+
+  &.active {
+    cursor: default;
+    border-bottom: 2px solid @primary-color;
+  }
+}
+

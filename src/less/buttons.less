@@ -1,5 +1,5 @@
 button {
-  width: 200px;
+  width: 170px;
   padding: 12px 0;
   border-radius: 50px;
   border: 2px solid @primary-color;
@@ -9,4 +9,9 @@ button {
   background: none;
   outline: none;
   cursor: pointer;
+
+  &:active {
+    background-color: @primary-color;
+    color: #fff;
+  }
 }

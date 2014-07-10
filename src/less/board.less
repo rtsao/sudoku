@@ -22,12 +22,16 @@
 
   .cell {
     .generate-region-highlights(9);
+    width: @cell-size;
+    height: @cell-size;
     margin: 0;
     padding: 0;
     border: 1px solid #eee;
 
     .outline {
       outline: 1px solid rgba(255, 180, 180, 0);
+      width: inherit;
+      height: inherit;
     }
 
     input {
@@ -36,8 +40,8 @@
       border: 0;
       font-size: @cell-font-size;
       font-family: inherit;
-      width: @cell-size;
-      height: @cell-size;
+      width: inherit;
+      height: inherit;
       line-height: @cell-size;
       text-align: center;
       background-color: rgba(0, 0, 0, 0);
