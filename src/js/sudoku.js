@@ -1,5 +1,11 @@
 var $ = require('jquery')
-  , _ = require('lodash')
+  , _ = require('lodash');
+
+window.jQuery = $;
+
+var velocity = require('velocity-animate')
+var velocityui = require('velocity-animate/velocity.ui')
+var animations = require('./animations')
 
 var mixins = require('./mixins')
 
@@ -29,6 +35,10 @@ module.exports = (function($, _){
       region: region
     };
 
+  }
+
+  function isValidInput(input, row, col) {
+    return false;
   }
 
   function generateRootSolution() {
@@ -89,7 +99,9 @@ module.exports = (function($, _){
     for (row = 0; row < 9; row++) {
       for (col = 0; col < 9; col++) {
         var val = rows[row][col];
-        getCell(row, col).val(val);
+        if (val) {
+          getCell(row, col).val(val).attr('readonly', true);
+        }
       }
     }
 
@@ -134,12 +146,16 @@ module.exports = (function($, _){
 
   function handleCellFocusout(e) {
 
-      var cell = getCellPosition(this);
-      console.log('Focusout:', cell);
+    var cell = getCellPosition(this);
+    var val = $(this).val();
+
+    if (!$(this).attr('readonly') && !isValidInput(val, cell.row, cell.col)) {
+      $(this).velocity('transition.cellInvalid', function() {
+        $(this).val('');
+      });
+    }
 
   }
-
-
 
   return {
     init: function() {
