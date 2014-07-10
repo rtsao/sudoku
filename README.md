@@ -16,7 +16,7 @@ Markup and styling is very minimal, but there is heavy use of CSS3 animations. I
 #### Puzzle Generation
 I initially generated puzzles using the root sudoku solution, applying transformations to the puzzle to randomize it, and then randomly removing entries. However, this can lead to puzzles with more than one solution. One can use a backtracking sudoku solving algorithm to ensure solutions are unique, but I decided to take a shortcut.
 
-Instead, I use sudoku transformations to generate new puzzles from a seed puzzle. It's much simpler than implementing a solver and it's hard to tell because I permute everything possible without destroying the puzzle's validitiy. I use lots of lodash functional programming here.
+Instead, I use sudoku transformations to generate new puzzles from a seed puzzle. This guarantees a unique solution and it's much simpler than using a solver. The puzzles appear quite random because I permute everything possible without destroying the puzzle's validity. Lodash's functional programming methods make the shuffling pretty easy.
 
 #### Board State
 It would have been much more efficient to store board state as dictionaries with keys 1-9, but I really wanted to animate the existing entry when the user inputs a duplicate in a given row, column, or region. This requires knowing the index of that entry, so I use plain, unsorted arrays to make it easy to find.
