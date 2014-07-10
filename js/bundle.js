@@ -19925,6 +19925,15 @@ $.Velocity.RegisterUI("transition.cellInvalid", {
       rotateY: 0
     }
 });
+
+$.Velocity.RegisterUI("callout.sectionInvalid", {
+    defaultDuration: 500,
+    calls: [ 
+        [ { outlineColorAlpha: 1 } ],
+        [ { outlineColorAlpha: 0 } ],
+    ]
+});
+
 },{"jquery":1}],6:[function(require,module,exports){
 var sudoku = require('./sudoku');
 
@@ -19989,11 +19998,7 @@ module.exports = (function($, _){
  
   var settings = {};
 
-  var boardCache = {
-    rows: [],
-    cols: [],
-    regions: []
-  }
+  var boardCache = {};
 
   function getCell(row, col) {
     return $('input[row='+row+'][col='+col+']');
@@ -20013,8 +20018,54 @@ module.exports = (function($, _){
 
   }
 
-  function isValidInput(input, row, col) {
-    return false;
+  function isValidInput(input, row, col, region) {
+
+    input = parseInt(input);
+    var regionIndex = 3*(row % 3) + (col % 3);
+
+
+
+    if (!(1 <= input && input <= 9)) {
+      boardCache.rows[row][col] = undefined;
+      boardCache.cols[col][row] = undefined;
+      boardCache.regions[region][regionIndex] = undefined;
+      return false 
+    }
+
+    if ((index = _.indexOf(boardCache.rows[row],input)) >= 0) {
+      $('[row='+row+']')
+        .parent()
+        .velocity('callout.sectionInvalid')
+        .eq(index)
+        .children()
+        .velocity('callout.shake');
+      return false
+
+    }
+    if ((index = _.indexOf(boardCache.cols[col],input)) >= 0) {
+      $('[col='+col+']')
+        .parent()
+        .velocity('callout.sectionInvalid')
+        .eq(index)
+        .children()
+        .velocity('callout.shake');
+      return false
+    }
+    if ((index = _.indexOf(boardCache.regions[region],input)) >= 0) {
+      $('[region='+region+']')
+        .children()
+        .velocity('callout.sectionInvalid')
+        .eq(index)
+        .children()
+        .velocity('callout.shake');
+      return false
+    }
+
+    boardCache.rows[row][col] = input;
+    boardCache.cols[col][row] = input;
+    boardCache.regions[region][regionIndex] = input;
+
+    return true;
   }
 
   function generateRootSolution() {
@@ -20071,12 +20122,16 @@ module.exports = (function($, _){
       .chunk(9) // Group by region
       .value();
 
+    boardCache.rows = rows;
+    boardCache.cols = cols;
+    boardCache.regions = regions;
+
 
     for (row = 0; row < 9; row++) {
       for (col = 0; col < 9; col++) {
         var val = rows[row][col];
         if (val) {
-          getCell(row, col).val(val).attr('readonly', true);
+          getCell(row, col).val(val).attr('readonly', true).hide();
         }
       }
     }
@@ -20125,7 +20180,18 @@ module.exports = (function($, _){
     var cell = getCellPosition(this);
     var val = $(this).val();
 
-    if (!$(this).attr('readonly') && !isValidInput(val, cell.row, cell.col)) {
+    if (val === '') {
+      boardCache.rows[cell.row][cell.col] = undefined;
+      boardCache.cols[cell.col][cell.row] = undefined;
+      boardCache.regions[cell.region][3*(cell.row%3)+(cell.col%3)] = undefined;
+      return;
+    }
+
+    if (val == boardCache.rows[cell.row][cell.col]) {
+      return;
+    }
+
+    if (!$(this).attr('readonly') && !isValidInput(val, cell.row, cell.col, cell.region)) {
       $(this).velocity('transition.cellInvalid', function() {
         $(this).val('');
       });
@@ -20142,7 +20208,7 @@ module.exports = (function($, _){
       $('.board').on( 'click', 'input', function(e) {
         $(this).select();
       });
-
+      $('input').velocity('transition.perspectiveDownIn', {stagger: 4, drag: true});
 
     }
 
