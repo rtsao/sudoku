@@ -16,6 +16,8 @@
     "del": "^0.1.1",
     "vinyl-source-stream": "^0.1.1",
     "express": "^4.5.1",
-    "watchify": "^0.10.2"
+    "watchify": "^0.10.2",
+    "lodash": "^2.4.1",
+    "jquery": "^2.1.1"
   }
 }

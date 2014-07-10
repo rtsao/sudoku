@@ -1,1 +1,3 @@
-console.log('Hello world!');
+var sudoku = require('./sudoku');
+
+sudoku.generateBoard();
