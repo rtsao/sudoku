@@ -20156,9 +20156,9 @@ module.exports = (function($, _){
       }
     }
 
-    $('.board').velocity('transition.boardReset',function(){
-      $('input').velocity('transition.perspectiveDownIn',{stagger: 4, drag: true});
-    });
+    
+    $('input').velocity('transition.perspectiveDownIn',{stagger: 4, drag: true});
+
 
   }
 
@@ -20232,9 +20232,16 @@ module.exports = (function($, _){
     if (difficulty !== settings.difficulty) {
       settings.difficulty = difficulty;
       $(this).addClass('active').siblings().removeClass('active');
-      generateBoard(settings.puzzles[settings.difficulty]);
+      resetBoard();
     }
 
+  }
+
+  function resetBoard() {
+    $('input').velocity('transition.fadeOut');
+    $('.board').velocity('transition.boardReset',function() {
+      generateBoard(settings.puzzles[settings.difficulty]);
+    });
   }
 
   return {
@@ -20248,7 +20255,7 @@ module.exports = (function($, _){
       });
       $('#difficulty').on('click', 'li', handleDifficultyClick);
       $('#new-game').on('click', _.debounce(function() {
-        generateBoard(settings.puzzles[settings.difficulty]);
+        resetBoard();
       }, 770, {'leading': true, 'trailing': false}));
 
     }
