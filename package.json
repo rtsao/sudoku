@@ -1,9 +1,13 @@
 {
   "name": "Sudoku!",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A cool sudoku webapp",
   "author": "Ryan Tsao <rtsao@scu.edu>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rtsao/sudoku.git"
+  },
   "devDependencies": {
     "gulp": "^3.8.6",
     "gulp-util": "^2.2.20",
