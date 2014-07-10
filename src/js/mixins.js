@@ -1,5 +1,7 @@
 var _ = require('lodash')
 
+var randMapping = _.shuffle(_.range(1, 10));
+
 _.mixin({
 
   rotate: function(array, offset) {
@@ -39,6 +41,10 @@ _.mixin({
         return fn(item);
       })
     })
+  },
+
+  randMap: function(i) {
+    return randMapping[i-1];
   }
 
 });

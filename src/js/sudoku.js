@@ -21,12 +21,6 @@ module.exports = (function($, _){
 
   var boardCache = {};
 
-  var randMapping = _.shuffle(_.range(1, 10));
-
-  function mapRand(i) {
-    return randMapping[i-1];
-  }
-
   function getCell(row, col) {
     return $('input[row='+row+'][col='+col+']');
   }
@@ -45,6 +39,7 @@ module.exports = (function($, _){
 
   }
 
+  // Animate appropriate row/column upon invalid entry
   function highlightCells(cells) {
     cells.velocity('callout.sectionInvalid')
       .eq(index)
@@ -52,6 +47,7 @@ module.exports = (function($, _){
       .velocity('callout.shake');
   }
 
+  // Determine if input is valid
   function isValidInput(input, row, col, region) {
 
     input = parseInt(input);
@@ -87,18 +83,6 @@ module.exports = (function($, _){
     return true;
   }
 
-  function generateRootSolution() {
-    var rows = [];
-
-    for (var i=0; i<9; i++) {
-      var offset = i ? (3*i % 8) || 8 : 0;
-      rows.push(_.rotate(_.range(1, 10), offset));
-    }
-
-    return rows;
-
-  }
-
   function generateBoard(puzzle_string) {
     var row, col;
 
@@ -117,7 +101,7 @@ module.exports = (function($, _){
       .map(_.shuffle) // Shuffle columns within each stack
       .shuffle() // Permute stacks
       .flatten(true) // Eliminate stack chunks
-      .mapMap(mapRand) // Randomly map numbers 1-9
+      .mapMap(_.randMap) // Randomly map numbers 1-9
       .value();
 
     cols = _.zip(rows);
@@ -151,15 +135,10 @@ module.exports = (function($, _){
         
       }
     }
-
     
     $('input').velocity('transition.perspectiveDownIn',{stagger: 4, drag: true});
 
 
-  }
-
-  function focusCell(row, col) {
-    getCell(row, col).focus().select();
   }
 
   function handleCellKeyDown(e) {
@@ -185,7 +164,7 @@ module.exports = (function($, _){
           break;
       }
 
-      focusCell((cell.row+9) % 9, (cell.col+9) % 9);
+      getCell((cell.row+9) % 9, (cell.col+9) % 9).focus().select();
     }
 
     // Number keys 1-9
@@ -220,10 +199,7 @@ module.exports = (function($, _){
   }
 
   function handleDifficultyClick(e) {
-    console.log('a',this);
     var difficulty = $(this).text();
-
-    console.log(difficulty);
 
     if (difficulty !== settings.difficulty) {
       settings.difficulty = difficulty;
