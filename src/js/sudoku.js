@@ -66,6 +66,11 @@ module.exports = (function($, _){
       focusCell((row+9) % 9, (col+9) % 9);
     }
 
+    // Number keys 1-9
+    else if (49 <= e.keyCode && e.keyCode <= 57 ) {
+      $(this).val(String.fromCharCode(e.keyCode));
+    }
+
   }
 
 
