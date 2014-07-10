@@ -16022,6 +16022,20 @@ module.exports = (function($, _){
     return $('input[row='+row+'][col='+col+']');
   }
 
+  function getCellPosition(el) {
+ 
+    var row = parseInt($(el).attr('row'))
+      , col = parseInt($(el).attr('col'))
+      , region = 3*Math.floor(row/3) + Math.floor(col/3);
+
+    return {
+      row: row,
+      col: col,
+      region: region
+    };
+
+  }
+
   function generateRootSolution() {
     var rows = [];
 
@@ -16051,36 +16065,42 @@ module.exports = (function($, _){
   }
 
   function handleCellKeyDown(e) {
-    
+
     // Arrow keys
     if (37 <= e.keyCode && e.keyCode <= 40) {
       e.preventDefault();
 
-      var col = parseInt($(this).attr('col'));
-      var row = parseInt($(this).attr('row'));
+      var cell = getCellPosition(this);
 
       switch (e.keyCode) {
         case 37:
-          col--;
+          cell.col--;
           break;
         case 38:
-          row--;
+          cell.row--;
           break;
         case 39:
-          col++;
+          cell.col++;
           break;
         case 40:
-          row++;
+          cell.row++;
           break;
       }
 
-      focusCell((row+9) % 9, (col+9) % 9);
+      focusCell((cell.row+9) % 9, (cell.col+9) % 9);
     }
 
     // Number keys 1-9
     else if (49 <= e.keyCode && e.keyCode <= 57 ) {
       $(this).val(String.fromCharCode(e.keyCode));
     }
+
+  }
+
+  function handleCellFocusout(e) {
+
+      var cell = getCellPosition(this);
+      console.log('Focusout:', cell);
 
   }
 
@@ -16091,6 +16111,11 @@ module.exports = (function($, _){
       generateBoard();
 
       $('.board').on('keydown', 'input', handleCellKeyDown);
+      $('.board').on('focusout', 'input', handleCellFocusout);
+      $('.board').on( 'click', 'input', function(e) {
+        $(this).select();
+      });
+
 
     }
 
