@@ -7,9 +7,9 @@ html(lang="en")
   body
     h1 Sudoku!
     table.board
-      - for (var y=0; y<9; y++)
+      - for (var row=0; row<9; row++)
         tr
-          - for (var x=0; x<9; x++)
-            td.cell
-              input(row=y, col=x, type="text", maxlength="1")
+          - for (var col=0; col<9; col++)
+            td.cell(region=Math.floor(col/3)+3*Math.floor(row/3))
+              input(row=row, col=col, type="text", maxlength="1")
   script(src="js/bundle.js")
