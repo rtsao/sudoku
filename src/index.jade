@@ -11,8 +11,9 @@ html(lang="en")
         tr
           - for (var col=0; col<9; col++)
             td.cell(region=Math.floor(col/3)+3*Math.floor(row/3))
-              input(row=row, col=col, type="text", maxlength="1")
+              div.outline
+                input(row=row, col=col, type="text", maxlength="1")
     button New Game
-  script(src="js/bundle.js")
   <script type="text/javascript" src="//use.typekit.net/etz5sio.js"></script>
   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  script(src="js/bundle.js")
