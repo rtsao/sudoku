@@ -14,3 +14,11 @@ $.Velocity.RegisterUI("transition.cellInvalid", {
       rotateY: 0
     }
 });
+
+$.Velocity.RegisterUI("callout.sectionInvalid", {
+    defaultDuration: 500,
+    calls: [ 
+        [ { outlineColorAlpha: 1 } ],
+        [ { outlineColorAlpha: 0 } ],
+    ]
+});
