@@ -3,10 +3,14 @@ Sudoku!
 
 A CSS3-animated sudoku app
 
-Demo: [http://rtsao.github.io/sudoku/](http://rtsao.github.io/sudoku/)
+Demo: [http://rtsao.github.io/sudoku/](http://rtsao.github.io/sudoku/) (IE10+, Chrome, Safari, Firefox)
+
+
+
+![Screenshot](http://ryantsao.me/img/sudoku.png)
 
 ### Structure
-This app uses Gulp, Browserify, Less, and Jade. I use autoprefixer for cross-browser support and Browserify and npm to load libraries and modules.
+This app uses Gulp, Browserify, Less, and Jade. I use autoprefixer for cross-browser CSS support and Browserify and npm to load libraries and modules.
 
 I store the board state in three arrays, one for the rows, columns, and regions of the board in the boardCache. This makes it easy to check whether or not there already exists a number in a given row/column/region.
 
