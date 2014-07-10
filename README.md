@@ -21,6 +21,9 @@ Instead, I use sudoku transformations to generate new puzzles from a seed puzzle
 #### Board State
 It would have been much more efficient to store board state as dictionaries with keys 1-9, but I really wanted to animate the existing entry when the user inputs a duplicate in a given row, column, or region. This requires knowing the index of that entry, so I use plain, unsorted arrays to make it easy to find.
 
+#### Attribute selectors
+I'm using lots of attribute selectors which are slow compared to class or selectors. The code is cleaner with attribute selectors but I might switch to classes to improve performance. 
+
 ### Limitations
 
 - No frameworks like Angular allowed.
