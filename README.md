@@ -3,6 +3,8 @@ Sudoku!
 
 A CSS3-animated sudoku app
 
+Demo: [http://rtsao.github.io/sudoku/](http://rtsao.github.io/sudoku/)
+
 ### Structure
 This app uses Gulp, Browserify, Less, and Jade. I use autoprefixer for cross-browser support and Browserify and npm to load libraries and modules.
 
